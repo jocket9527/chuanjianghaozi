@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>曲谱详情 · 川江号子 · 交响合唱</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background: #0a0a0a;
+            color: #f0e8dc;
+            background-image: url('./img/背景.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+            position: relative;
+        }
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 8, 5, 0.4);
+            backdrop-filter: blur(1px);
+            -webkit-backdrop-filter: blur(1px);
+backdrop-filter: blur(1px);
+            z-index: -1;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px 48px; position: relative; z-index: 2; }
+        .navbar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 0 20px;
+            border-bottom: 1px solid rgba(218, 185, 118, 0.2);
+            margin-bottom: 32px;
+        }
+        .logo h1 { font-size: 1.9rem; background: linear-gradient(135deg,#f5e2b0,#c9a962); background-clip: text; -webkit-background-clip: text; color: transparent; }
+        .nav-links a { color: #fdf3e0; text-decoration: none; margin: 0 12px; border-bottom: 2px solid transparent; padding-bottom: 6px; }
+        .nav-links a:hover { color: #ffd97c; border-bottom-color: #ffd97c; }
+        .detail-card { background: rgba(0,0,0,0.55); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); border-radius: 48px; padding: 32px; margin-top: 20px; border: 1px solid rgba(218, 185, 118, 0.3); }
+        .chapter-title { font-size: 2rem; color: #ffe2a4; margin-bottom: 10px; text-align: center; }
+        .chapter-desc { text-align: center; margin-bottom: 30px; opacity: 0.8; }
+        .book-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+        .page-card {
+            background: rgba(0,0,0,0.4);
+            border-radius: 24px;
+            padding: 15px;
+            cursor: pointer;
+            transition: 0.2s;
+            border: 1px solid rgba(218,185,118,0.2);
+        }
+        .page-card:hover {
+            border-color: #e7bc7e;
+            transform: translateY(-5px);
+            background: rgba(0,0,0,0.6);
+        }
+        .page-card img {
+            width: 100%;
+            border-radius: 16px;
+            margin-bottom: 12px;
+            height: 220px;
+            object-fit: cover;
+        }
+        .page-caption {
+            text-align: center;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #ffe2a4;
+        }
+        .page-sub {
+            text-align: center;
+            font-size: 0.75rem;
+            opacity: 0.7;
+            margin-top: 5px;
+        }
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .lightbox.active { display: flex; }
+        .lightbox-img-container {
+            position: relative;
+            max-width: 90%;
+            max-height: 80%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .lightbox img {
+            max-width: 100%;
+            max-height: 80vh;
+            border-radius: 16px;
+        }
+        .lightbox .close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 2rem;
+            color: white;
+            cursor: pointer;
+            z-index: 1001;
+        }
+        .lightbox .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.6);
+            color: #e7bc7e;
+            border: none;
+            font-size: 2.5rem;
+            padding: 0 15px;
+            cursor: pointer;
+            border-radius: 40px;
+            z-index: 1001;
+        }
+        .lightbox .prev { left: 20px; }
+        .lightbox .next { right: 20px; }
+        .lightbox .caption {
+            margin-top: 20px;
+            color: #e7bc7e;
+            text-align: center;
+        }
+        .back-link { display: inline-block; margin-top: 32px; color: #ffd97c; text-decoration: none; border-bottom: 1px dashed; }
+        footer { text-align: center; padding: 32px 0 16px; border-top: 1px solid rgba(190, 156, 96, 0.2); margin-top: 40px; }
+        @media (max-width: 700px) { .book-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="navbar">
+        <div class="logo"><h1>川江号子 · 链上传承</h1></div>
+        <div class="nav-links">
+            <a href="index.html">首页</a><a href="culture.html">资料库</a><a href="inheritor.html">传承人</a>
+            <a href="verify.html">验真查询</a><a href="study.html">研学体验</a><a href="mall.html">文创商城</a>
+            <a href="show.html">驻场演出</a><a href="community.html">新闻社区</a>
+        </div>
+    </div>
+    <div class="detail-card" id="detailContent">
+        <div style="text-align: center;">加载中...</div>
+    </div>
+    <div style="text-align: center; margin-top: 20px;">
+        <a href="culture_score_list.html" class="back-link"><i class="fas fa-arrow-left"></i> 返回乐章列表</a>
+    </div>
+    <footer>© 川江号子 · 链上传承</footer>
+</div>
+
+<!-- 多页灯箱 -->
+<div id="lightbox" class="lightbox" onclick="closeLightbox(event)">
+    <span class="close">&times;</span>
+    <button class="nav-btn prev" id="prevBtn">❮</button>
+    <div class="lightbox-img-container">
+        <img id="lightboxImg" src="">
+    </div>
+    <button class="nav-btn next" id="nextBtn">❯</button>
+    <div id="lightboxCaption" class="caption"></div>
+</div>
+
+<script>
+
+    const chaptersData = {
+        1: {
+            title: "第一乐章",
+            desc: "",
+            scores: [
+                { name: "混声合唱《川江谣——月亮光光》", 
+                  images: ["./img/乐谱/月亮1.png", "./img/乐谱/月亮2.png", "./img/乐谱/月亮3.png"] },
+                { name: "男高音与男声合唱《闯滟滪滩》", 
+                  images: ["./img/乐谱/闯滟1.png","./img/乐谱/闯滟2.png","./img/乐谱/闯滟3.png","./img/乐谱/闯荡4.png","./img/乐谱/闯荡5.png"] },
+                { name: "男声表演唱《歇稍调》", 
+                  images: ["./img/乐谱/歇1.png"] }
+            ]
+        },
+        2: {
+            title: "第二乐章",
+            desc: "",
+            scores: [
+                { name: "女声表演唱《哥哥撑船几漂亮》", 
+                  images: ["./img/乐谱/撑船1.png"] },
+                { name: "男声合唱《川江酒歌》", 
+                  images: ["./img/乐谱/川江1.png","./img/乐谱/川江2.png"] },
+                { name: "男女声对唱《搭飞白》", 
+                  images: ["./img/乐谱/飞白1.png","./img/乐谱/飞白2.png"] },
+                { name: "男声领唱与男声合唱《川江号子——龙门阵》", 
+                  images: ["./img/乐谱/龙门阵1.png", "./img/乐谱/龙门2.png","./img/乐谱/龙门3.png","./img/乐谱/龙门4.png","./img/乐谱/龙门5.png","./img/乐谱/龙门6.png","./img/乐谱/龙门7.png"] }
+            ]
+        },
+        3: {
+            title: "第三乐章",
+            desc: "",
+            scores: [
+                { name: "无伴奏女中音与女声合唱《么儿乖——川江摇篮曲》", 
+                  images: ["./img/乐谱/么儿1.png","./img/乐谱/么儿2.png"] },
+                { name: "高男高音表演唱《长声吆吆》", 
+                  images: ["./img/乐谱/长声1.png", "./img/乐谱/长声12.png"] },
+                { name: "女民歌与男声表演唱《船二哥烫火锅》", 
+                  images: ["./img/乐谱/船二哥1.png","./img/乐谱/船二哥2.png","./img/乐谱/船二哥3.png","./img/乐谱/船二哥4.png"] }
+            ]
+        },
+        4: {
+            title: "第四乐章",
+            desc: "",
+            scores: [
+                { name: "男中音与混声合唱《想婆娘》", 
+                  images: ["./img/乐谱/想婆娘1.png","./img/乐谱/想婆娘2.png","./img/乐谱/想婆娘3.png"] },
+                { name: "女高音与女声合唱《呼归石》", 
+                  images: ["./img/乐谱/呼归石1.png","./img/乐谱/呼归石2.png","./img/乐谱/呼归石3.png"] },
+                { name: "无伴奏男声表演唱《船到码头把酒喝》", 
+                  images: ["./img/乐谱/把酒喝1.png", "./img/乐谱/把酒喝2.png","./img/乐谱/把酒喝3.png","./img/乐谱/把酒喝4.png","./img/乐谱/把酒喝5.png","./img/乐谱/把酒喝6.png","./img/乐谱/把酒喝7.png"] },
+                { name: "混声合唱《川江颂》", 
+                  images: ["./img/乐谱/川江颂1.png","./img/乐谱/川江颂2.png","./img/乐谱/川江颂3.png"] }
+            ]
+        }
+    };
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const chapter = urlParams.get('chapter');
+    const data = chaptersData[chapter] || chaptersData[1];
+
+    let currentScore = null;
+    let currentImageIndex = 0;
+
+    function renderGallery() {
+        let html = `<div class="book-grid">`;
+        data.scores.forEach((score, idx) => {
+            const coverImg = score.images[0];
+            const pageCount = score.images.length;
+            html += `
+                <div class="page-card" onclick="openScoreLightbox(${idx})">
+                    <img src="${coverImg}" alt="${score.name}">
+                    <div class="page-caption">${score.name}</div>
+                    <div class="page-sub">${pageCount}页</div>
+                </div>
+            `;
+        });
+        html += `</div>`;
+        return html;
+    }
+
+    window.openScoreLightbox = function(scoreIdx) {
+        currentScore = data.scores[scoreIdx];
+        currentImageIndex = 0;
+        updateLightboxImage();
+        document.getElementById('lightbox').classList.add('active');
+    };
+
+    function updateLightboxImage() {
+        const imgSrc = currentScore.images[currentImageIndex];
+        document.getElementById('lightboxImg').src = imgSrc;
+        document.getElementById('lightboxCaption').innerHTML = `${currentScore.name} · 第${currentImageIndex+1}/${currentScore.images.length}页`;
+    }
+
+    function nextImage() {
+        if (currentImageIndex + 1 < currentScore.images.length) {
+            currentImageIndex++;
+            updateLightboxImage();
+        } else {
+            alert('已至最后一页');
+        }
+    }
+
+    function prevImage() {
+        if (currentImageIndex - 1 >= 0) {
+            currentImageIndex--;
+            updateLightboxImage();
+        } else {
+            alert('已至第一页');
+        }
+    }
+
+    function closeLightbox(e) {
+        if (e && e.target !== e.currentTarget && e.target.className !== 'close' && !e.target.classList.contains('prev') && !e.target.classList.contains('next')) return;
+        document.getElementById('lightbox').classList.remove('active');
+        currentScore = null;
+    }
+
+    document.getElementById('prevBtn').addEventListener('click', (e) => {
+        e.stopPropagation();
+        prevImage();
+    });
+    document.getElementById('nextBtn').addEventListener('click', (e) => {
+        e.stopPropagation();
+        nextImage();
+    });
+    document.querySelector('.lightbox .close').addEventListener('click', (e) => {
+        e.stopPropagation();
+        closeLightbox();
+    });
+
+    document.getElementById('detailContent').innerHTML = `
+        <div class="chapter-title">📖 ${data.title}</div>
+        <div class="chapter-desc">${data.desc}</div>
+        ${renderGallery()}
+    `;
+</script>
+</body>
+</html>

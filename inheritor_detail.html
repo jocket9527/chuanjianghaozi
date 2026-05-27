@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>传承人详情 · 川江号子</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background: #0a0a0a;
+            color: #f0e8dc;
+            background-image: url('./img/背景.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+            position: relative;
+        }
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 8, 5, 0.4);
+            backdrop-filter: blur(1px);
+            z-index: -1;
+        }
+        .container { max-width: 1000px; margin: 0 auto; padding: 0 24px 48px; position: relative; z-index: 2; }
+        .navbar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 0 20px;
+            border-bottom: 1px solid rgba(218, 185, 118, 0.2);
+            margin-bottom: 32px;
+        }
+        .logo h1 { font-size: 1.9rem; background: linear-gradient(135deg,#f5e2b0,#c9a962); background-clip: text; -webkit-background-clip: text; color: transparent; }
+        .nav-links a { color: #fdf3e0; text-decoration: none; margin: 0 12px; border-bottom: 2px solid transparent; padding-bottom: 6px; }
+        .nav-links a:hover { color: #ffd97c; border-bottom-color: #ffd97c; }
+        .detail-card { background: rgba(0,0,0,0.55); backdrop-filter: blur(8px); border-radius: 48px; padding: 32px; margin-top: 20px; border: 1px solid rgba(218, 185, 118, 0.3); }
+        .detail-img { width: 180px; height: 180px; border-radius: 50%; object-fit: cover; display: block; margin: 0 auto 20px; border: 4px solid #e7bc7e; }
+        .back-link { display: inline-block; margin-top: 32px; color: #ffd97c; text-decoration: none; border-bottom: 1px dashed; }
+        .video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px,1fr)); gap: 20px; margin-top: 20px; }
+        .video-item { background: rgba(0,0,0,0.4); border-radius: 20px; padding: 12px; text-align: center; }
+        .video-item img { width: 100%; border-radius: 16px; }
+        footer { text-align: center; padding: 32px 0 16px; font-size: 0.75rem; color: #eee2cd; border-top: 1px solid rgba(190,156,96,0.2); margin-top: 40px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="navbar">
+        <div class="logo"><h1>川江号子 · 链上传承</h1></div>
+        <div class="nav-links"><a href="index.html">首页</a><a href="culture.html">资料库</a><a href="inheritor.html">传承人</a><a href="verify.html">验真查询</a><a href="study.html">研学体验</a><a href="mall.html">文创商城</a><a href="show.html">驻场演出</a><a href="community.html">新闻社区</a></div>
+    </div>
+
+    <div class="detail-card" id="detailContent">
+        <!-- 动态内容会由 JavaScript 填充 -->
+        <div style="text-align: center;">加载中...</div>
+    </div>
+
+    <div style="text-align: center; margin-top: 20px;">
+        <a href="inheritor.html" class="back-link"><i class="fas fa-arrow-left"></i> 返回传承人列表</a>
+    </div>
+    <footer>© 川江号子 · 链上传承</footer>
+</div>
+
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get('id');
+    const type = urlParams.get('type');
+
+    // 传承人基础信息
+    const inheritors = {
+        1: { name: "陈邦贵", img: "https://randomuser.me/api/portraits/men/32.jpg", bio: "国家级代表性传承人，号子泰斗，多次赴海外交流。" },
+        2: { name: "吴秀兰", img: "https://randomuser.me/api/portraits/women/68.jpg", bio: "川江唯一女号子王，嗓音高亢嘹亮。" },
+        3: { name: "李振华", img: "https://randomuser.me/api/portraits/men/45.jpg", bio: "峡江号子抢救者，口述史专家。" }
+    };
+
+    // 根据不同 type 生成内容
+    function renderContent() {
+        if (id === '0' && type === 'pedigree') {
+            // 师徒谱系页面
+            return `
+                <h1 style="text-align:center; color:#ffe2a4;"><i class="fas fa-project-diagram"></i> 川江号子 · 链上师徒谱系</h1>
+                <div style="text-align: center; margin: 20px 0;">
+                    <img src="https://picsum.photos/id/100/600/400" alt="完整谱系图" style="width:100%; border-radius: 24px;">
+                </div>
+                <p style="line-height:1.8;">川江号子传承谱系可追溯至清末，第一代宗师张老船头，第二代陈大发，第三代陈邦贵，第四代李振华，第五代新生代传承人刘菊仙等。点击节点可查看详细档案。本谱系已上链存证，哈希: 0x7c8d9e...。</p>
+                <div style="margin-top: 20px;"><i class="fas fa-link"></i></div>
+            `;
+        }
+
+        const inheritor = inheritors[id];
+        if (!inheritor) return `<p>未找到相关传承人信息。</p>`;
+
+        let content = `
+            <img class="detail-img" src="${inheritor.img}" alt="${inheritor.name}">
+            <h1 style="text-align:center; color:#ffe2a4;">${inheritor.name}</h1>
+            <p style="text-align:center; margin:16px 0;">${inheritor.bio}</p>
+        `;
+
+        if (type === 'masterspace') {
+            content += `
+                <h3><i class="fas fa-star"></i> 大师空间 · 作品集</h3>
+                <div class="video-grid">
+                    <div class="video-item"><img src="https://picsum.photos/id/116/300/200"><p>原创音频《闯滩号子》</p><button class="back-link" style="margin:8px 0 0;" onclick="alert('试听链接')">试听</button></div>
+                    <div class="video-item"><img src="https://picsum.photos/id/120/300/200"><p>演出视频《纤夫魂》</p><button class="back-link" style="margin:8px 0 0;" onclick="alert('观看视频')">观看</button></div>
+                    <div class="video-item"><img src="https://picsum.photos/id/122/300/200"><p>教学实录·唱腔拆解</p><button class="back-link" style="margin:8px 0 0;" onclick="alert('学习课程')">学习</button></div>
+                </div>
+                <p style="margin-top:20px;"><i class="fas fa-link"></i> 链上个人DID: cjhz:0x3e8f1a (已认证)</p>
+            `;
+        } else if (type === 'video') {
+            content += `
+                <h3><i class="fas fa-video"></i> 专访视频 · 精彩片段</h3>
+                <div class="video-grid">
+                    <div class="video-item"><img src="https://picsum.photos/id/20/300/200"><p>《女号子王的川江情》预告</p><button class="back-link" style="margin:8px 0 0;" onclick="alert('观看完整专访')">观看</button></div>
+                    <div class="video-item"><img src="https://picsum.photos/id/24/300/200"><p>《号子里的巾帼力量》纪录片</p><button class="back-link" style="margin:8px 0 0;" onclick="alert('观看纪录片')">观看</button></div>
+                    <div class="video-item"><img src="https://picsum.photos/id/42/300/200"><p>后台花絮·排练瞬间</p><button class="back-link" style="margin:8px 0 0;" onclick="alert('观看花絮')">观看</button></div>
+                </div>
+                <p style="margin-top:20px;"><i class="fas fa-link"></i> 链上专访编号: CJHZ-VID-002</p>
+            `;
+        } else if (type === 'teaching') {
+            content += `
+                <h3><i class="fas fa-chalkboard"></i> 教学实录 · 系统课程</h3>
+                <div class="video-grid">
+                    <div class="video-item"><img src="https://picsum.photos/id/26/300/200"><p>第一课：号子基础节奏</p><button class="back-link" style="margin:8px 0 0;" onclick="alert('开始学习')">开始学习</button></div>
+                    <div class="video-item"><img src="https://picsum.photos/id/28/300/200"><p>第二课：上水号子唱腔</p><button class="back-link" style="margin:8px 0 0;" onclick="alert('开始学习')">开始学习</button></div>
+                    <div class="video-item"><img src="https://picsum.photos/id/29/300/200"><p>第三课：拉纤号子肢体动作</p><button class="back-link" style="margin:8px 0 0;" onclick="alert('开始学习')">开始学习</button></div>
+                </div>
+                <p style="margin-top:20px;"><i class="fas fa-link"></i> 教学课程已上链存证，学习后可获得NFT证书</p>
+            `;
+        } else {
+            content += `<p style="text-align:center;">请选择查看具体内容。</p>`;
+        }
+
+        return content;
+    }
+
+    document.getElementById('detailContent').innerHTML = renderContent();
+</script>
+</body>
+</html>

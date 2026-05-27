@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>验真查询 · 区块链溯源 · 川江号子</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background: #0a0a0a;
+            color: #f0e8dc;
+            background-image: url('./img/背景.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+            position: relative;
+        }
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 8, 5, 0.4);
+    -webkit-backdrop-filter: blur(1px);
+    backdrop-filter: blur(1px);
+    z-index: -1;
+}
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 24px 48px; position: relative; z-index: 2; }
+        .navbar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 0 20px;
+            border-bottom: 1px solid rgba(218, 185, 118, 0.2);
+            margin-bottom: 32px;
+        }
+        .logo h1 {
+            font-size: 1.9rem;
+            background: linear-gradient(135deg,#f5e2b0,#c9a962);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .nav-links a {
+            color: #fdf3e0;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 2px solid transparent;
+            padding-bottom: 6px;
+        }
+        .nav-links a:hover, .nav-links a.active { color: #ffd97c; border-bottom-color: #ffd97c; }
+        .chain-badge {
+            background: rgba(0,0,0,0.3);
+            padding: 6px 14px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            border: 1px solid rgba(201, 169, 98, 0.3);
+            font-family: monospace;
+        }
+        .page-title {
+            font-size: 2rem;
+            margin: 20px 0 30px;
+            border-left: 6px solid #e0b06e;
+            padding-left: 20px;
+            color: #ffe8bf;
+        }
+        .verify-box {
+            background: rgba(0,0,0,0.5);
+            border-radius: 32px;
+            padding: 30px;
+            margin-bottom: 40px;
+            text-align: center;
+            border: 1px solid rgba(218, 185, 118, 0.2);
+        }
+        .input-group {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .input-group input {
+            padding: 12px 20px;
+            border-radius: 40px;
+            border: 1px solid rgba(201, 169, 98, 0.5);
+            background: rgba(0,0,0,0.6);
+            color: white;
+            width: 300px;
+        }
+        .btn-verify {
+            background: #b27d40;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 40px;
+            color: white;
+            cursor: pointer;
+        }
+        .two-cols {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        .card {
+            background: rgba(0,0,0,0.45);
+            -webkit-backdrop-filter: blur(6px);
+            backdrop-filter: blur(6px);
+            border-radius: 28px;
+            padding: 24px;
+            border: 1px solid rgba(218, 185, 118, 0.2);
+        }
+        .patent-section {
+            margin-bottom: 50px;
+        }
+        .patent-section h3 {
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+            color: #ffe2a4;
+            border-left: 6px solid #e0b06e;
+            padding-left: 20px;
+        }
+        .patent-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 25px;
+        }
+        .patent-item {
+        .patent-item {
+            background: rgba(0,0,0,0.45);
+            -webkit-backdrop-filter: blur(6px);
+            backdrop-filter: blur(6px);
+            border-radius: 24px;
+            padding: 15px;
+            text-align: center;
+            border: 1px solid rgba(218, 185, 118, 0.2);
+            transition: 0.2s;
+        }
+            border-color: rgba(231, 188, 126, 0.5);
+            transform: translateY(-3px);
+        }
+        .patent-item img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 16px;
+            margin-bottom: 12px;
+        }
+        .patent-item h4 {
+            font-size: 1rem;
+            margin-bottom: 6px;
+        }
+        .patent-item p {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+        .nft-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .nft-item {
+            background: rgba(0,0,0,0.4);
+            border-radius: 20px;
+            padding: 15px;
+            text-align: center;
+            border: 1px solid rgba(218,185,118,0.15);
+        }
+        /* 关键修改：统一图片尺寸，比例一致，对照工整 */
+        .nft-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 16px;
+            margin-bottom: 12px;
+        }
+        footer {
+            text-align: center;
+            padding: 32px 0 16px;
+            border-top: 1px solid rgba(190, 156, 96, 0.2);
+            margin-top: 40px;
+            font-size: 0.75rem;
+            color: #eee2cd;
+        }
+        @media (max-width: 800px) {
+            .two-cols { grid-template-columns: 1fr; }
+            .navbar { flex-direction: column; gap: 16px; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="navbar">
+        <div class="logo"><h1>川江号子 · 链上传承</h1></div>
+        <div class="nav-links">
+            <a href="index.html">首页</a>
+            <a href="culture.html">资料库</a>
+            <a href="inheritor.html">传承人</a>
+            <a href="verify.html" class="active">验真查询</a>
+            <a href="study.html">研学体验</a>
+            <a href="mall.html">文创商城</a>
+            <a href="show.html">驻场演出</a>
+            <a href="community.html">新闻社区</a>
+        </div>
+        <div class="chain-badge"><i class="fas fa-shield-alt"></i> 区块链 · 版权溯源</div>
+    </div>
+    <div class="page-title"><i class="fas fa-search"></i> 公开验真系统 · 一键溯源</div>
+
+    <!-- 验真入口 -->
+    <div class="verify-box">
+        <i class="fas fa-certificate" style="font-size: 2rem; color: #e7bc7e;"></i>
+        <h3 style="margin: 15px 0;">输入藏品编号或哈希值查询真伪</h3>
+        <div class="input-group">
+            <input type="text" placeholder="例如：CJHZ-001 或 0x8f3e2a7c..." id="hashInput">
+            <button class="btn-verify" onclick="alert('模拟查询：该藏品已上链存证，版权归非遗保护中心所有，上链时间2025-03-15。')">立即验真</button>
+        </div>
+        <p style="margin-top: 15px; font-size:0.8rem;">同时支持上传溯源码图片自动识别</p>
+    </div>
+
+    <!-- 技术解读双栏 -->
+    <div class="two-cols">
+        <div class="card">
+            <h3><i class="fas fa-lightbulb"></i> 技术解读 · 为什么需要区块链？</h3>
+            <ul style="margin: 15px 0 0 20px; line-height: 1.8;">
+                <li>🔒 防篡改：数据一旦上链，不可更改</li>
+                <li>🔍 可溯源：完整记录流转历史</li>
+                <li>©️ 版权明确：创作者信息永久存证</li>
+                <li>♾️ 永久留存：不受服务器故障影响</li>
+            </ul>
+            <div style="margin-top: 20px; text-align: center;">
+                <img src="./img/区块链.jpg" style="border-radius: 16px; width:100%;" alt="区块链图解">
+            </div>
+        </div>
+        <div class="card">
+            <h3><i class="fas fa-chart-network"></i> 联盟链技术优势</h3>
+            <p style="margin-top: 10px;">合规稳定：采用国家认可的非遗保护联盟链架构，符合《区块链信息服务管理规定》，节点由非遗保护中心、公证处、高校研究机构等权威方共同维护，数据主权清晰，法律效力明确。</p>
+            <p style="margin-top: 10px;">低成本易推广：相比公链高昂的Gas费，联盟链上链成本极低，支持批量打包上链，适合非遗领域大量历史资料、音视频、曲谱的数字化存证需求。</p>
+            <p style="margin-top: 10px;">高性能高扩展：联盟链每秒可处理数千笔交易，秒级确认，支持未来接入更多非遗项目、景区、传承人节点，形成全国非遗链网。</p>
+            <p style="margin-top: 10px;">隐私与透明平衡：版权归属、上链时间等核心信息全网公开可查，传承人个人身份等敏感数据仅授权方可见，兼顾保护与开放。</p>
+            <p style="margin-top: 10px;">上链流程：作品上传 → 实名认证 → 哈希加密 → 区块记录 → 生成公证凭证 → 全网可查。(全过程秒级完成)</p>
+            <button class="btn-verify" style="margin-top: 20px;" onclick="alert('详细技术白皮书可联系客服获取')">了解更多 →</button>
+        </div>
+    </div>
+
+    <!-- 荣誉与专利展示区 -->
+    <div class="patent-section">
+        <h3><i class="fas fa-trophy"></i> 荣誉与专利 · 创新成果</h3>
+        <div class="patent-grid">
+            <div class="patent-item">
+                <img src="./img/专利应用/专利.jpg.png" alt="专利证书">
+                <h4>存证专利证书</h4>
+                <p>专利号：PCT/CN2025/108035</p>
+            </div>
+            <div class="patent-item">
+                <img src="./img/获奖图片/学校获奖《川江号子》.jpg" alt="获奖图片">
+                <h4>获奖图片展示</h4>
+                <p>大学生艺术展演</p>
+            </div>
+            <div class="patent-item">
+                <img src="./img/演出照片/合照.jpg" alt="演出剧照">
+                <h4>演出作品展示</h4>
+                <p>国作登字-2025-B-001234</p>
+            </div>
+        </div>
+        <p style="text-align: center; margin-top: 20px; font-size:0.85rem;">以上专利及成果均已上链存证，支持一键验真</p>
+    </div>
+
+    <!-- 数字产品专区 -->
+    <div class="card">
+        <h3><i class="fas fa-gem"></i> 数字产品专区</h3>
+        <div class="nft-grid">
+            <div class="nft-item">
+                <img src="./img/logo.png" alt="原创产品">
+                <p>logo </p>
+                <button class="btn-verify" style="padding: 5px 12px; font-size:0.7rem;" onclick="alert('链上版权证书已生成')">查询</button>
+            </div>
+            <div class="nft-item">
+                <img src="./img/图.jpg" alt="原创产品">
+                <p>钥匙扣 </p>
+                <button class="btn-verify" style="padding: 5px 12px; font-size:0.7rem;" onclick="alert('链上编号CJHZ-NFT-023')">查询</button>
+            </div>
+            <div class="nft-item">
+                <img src="./img/帆布袋.jpg" alt="原创产品">
+                <p>帆布袋</p>
+                <button class="btn-verify" style="padding: 5px 12px; font-size:0.7rem;" onclick="alert('链上版权证书，支持分享')">查询</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>© 川江号子 · 链上传承</footer>
+</div>
+
+<script>
+    // 无复杂脚本，可留空或添加简单交互
+</script>
+</body>
+</html>

@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>号子节奏闯关 · 钢琴块式节奏游戏</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background: #0a0a0a;
+            color: #f0e8dc;
+            background-image: url('./img/背景.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+            position: relative;
+        }
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 8, 5, 0.4);
+            backdrop-filter: blur(1px);
+            z-index: -1;
+        }
+        .container { max-width: 900px; margin: 0 auto; padding: 0 24px 48px; position: relative; z-index: 2; }
+        .game-container {
+            background: rgba(0,0,0,0.55);
+            backdrop-filter: blur(10px);
+            border-radius: 48px;
+            padding: 30px;
+            margin-top: 40px;
+            border: 1px solid rgba(218,185,118,0.3);
+            text-align: center;
+        }
+        h1 { color: #ffe2a4; margin-bottom: 15px; }
+        .audio-info {
+            background: rgba(0,0,0,0.4);
+            border-radius: 40px;
+            padding: 12px;
+            margin: 15px 0;
+            font-size: 0.9rem;
+        }
+        .play-btn {
+            background: none;
+            border: 1px solid #e7bc7e;
+            padding: 8px 24px;
+            border-radius: 40px;
+            color: #ffefcf;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 0 8px;
+        }
+        .play-btn:hover { background: #b2803f; }
+        .info {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+            font-size: 1.2rem;
+        }
+        .beat-line {
+            background: rgba(0,0,0,0.5);
+            border-radius: 50px;
+            height: 60px;
+            margin: 30px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .beat-track {
+            position: relative;
+            height: 100%;
+            width: 100%;
+        }
+        .beat-marker {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: #e7bc7e;
+            border-radius: 50%;
+            top: 10px;
+            left: 0;
+            transition: left 0.05s linear;
+            box-shadow: 0 0 10px gold;
+            z-index: 2;
+        }
+        .beat-dot {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: rgba(255,215,0,0.6);
+            border-radius: 50%;
+            top: 24px;
+            transform: translateX(-50%);
+        }
+        .hit-area {
+            background: rgba(255,215,0,0.2);
+            border: 2px solid #e7bc7e;
+            border-radius: 60px;
+            padding: 15px;
+            margin: 20px 0;
+            cursor: pointer;
+            transition: 0.05s linear;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .hit-area:active { background: rgba(255,215,0,0.5); transform: scale(0.98); }
+        .score-board {
+            font-size: 1.8rem;
+            margin: 15px 0;
+        }
+        .feedback {
+            min-height: 60px;
+            font-size: 1.2rem;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            color: #ffd97c;
+            text-decoration: none;
+            border-bottom: 1px dashed;
+        }
+        footer { text-align: center; margin-top: 40px; font-size: 0.75rem; }
+        @media (max-width: 600px) {
+            .beat-marker { width: 30px; height: 30px; top: 15px; }
+            .beat-dot { width: 8px; height: 8px; top: 26px; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="game-container">
+        <h1><i class="fas fa-drumstick-bite"></i> 号子节奏闯关 · 钢琴块式</h1>
+        <p>跟随固定音频《船到码头把酒喝》，在节奏点到达时点击下方区域！</p>
+        <div class="audio-info">
+            <i class="fas fa-music"></i> 当前音频：船到码头把酒喝.wav
+        </div>
+        <div class="beat-line">
+            <div class="beat-track" id="beatTrack">
+                <div class="beat-marker" id="beatMarker"></div>
+                <!-- 动态添加节拍点 -->
+            </div>
+        </div>
+        <div class="info">
+            <span>🎯 命中: <span id="hitCount">0</span></span>
+            <span>📊 进度: <span id="progress">0</span>/<span id="totalBeats">0</span></span>
+        </div>
+        <div class="hit-area" id="hitZone">
+            👆 点击这里 👆
+        </div>
+        <div class="score-board" id="scoreBoard"></div>
+        <div class="feedback" id="feedbackMsg">点击「播放挑战」开始！</div>
+        <div>
+            <button id="playBtn" class="play-btn"><i class="fas fa-play"></i> 播放挑战</button>
+            <button id="resetBtn" class="play-btn" style="display:none;"><i class="fas fa-redo-alt"></i> 重新开始</button>
+        </div>
+    </div>
+    <div style="text-align: center; margin-top: 20px;">
+        <a href="study.html" class="back-link"><i class="fas fa-arrow-left"></i> 返回研学体验</a>
+    </div>
+    <footer>© 川江号子 · 链上传承 </footer>
+</div>
+
+<script>
+    // ================= 固定音频配置 =================
+    const audioSrc = "./img/原创音频/2025-4-21船到码头把酒喝.wav";
+    // 节拍时间点（单位：秒）—— 请根据实际音频的节奏点手动调整
+    // 这里给出示例节拍点（假设音频约20秒，每2秒一个重拍 + 一些变奏）
+    // 您可以通过听音频并记录每个重拍/强拍的时间来修改此数组
+    const beatTimes = [
+        1.2, 2.5, 3.8, 5.0, 6.3, 7.7, 9.0, 10.4, 11.8, 13.2, 14.5, 15.9, 17.2, 18.5, 19.8
+    ];
+    // ==============================================
+
+    let audioElement = null;
+    let animationId = null;
+    let nextBeatIndex = 0;
+    let hitCount = 0;
+    let gameActive = false;
+    let totalBeats = beatTimes.length;
+
+    const hitZone = document.getElementById('hitZone');
+    const hitCountSpan = document.getElementById('hitCount');
+    const progressSpan = document.getElementById('progress');
+    const totalBeatsSpan = document.getElementById('totalBeats');
+    const feedbackDiv = document.getElementById('feedbackMsg');
+    const scoreBoard = document.getElementById('scoreBoard');
+    const playBtn = document.getElementById('playBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const beatMarker = document.getElementById('beatMarker');
+    const beatTrack = document.getElementById('beatTrack');
+
+    totalBeatsSpan.innerText = totalBeats;
+
+    // 绘制节拍点（小圆点）
+    function drawBeatDots() {
+        // 清除原有小圆点
+        const oldDots = beatTrack.querySelectorAll('.beat-dot');
+        oldDots.forEach(dot => dot.remove());
+        if (!audioElement) return;
+        const duration = audioElement.duration;
+        if (!duration || isNaN(duration)) return;
+        const trackWidth = beatTrack.clientWidth;
+        beatTimes.forEach(time => {
+            if (time <= duration) {
+                const leftPercent = (time / duration) * 100;
+                const dot = document.createElement('div');
+                dot.className = 'beat-dot';
+                dot.style.left = `calc(${leftPercent}% - 6px)`;
+                beatTrack.appendChild(dot);
+            }
+        });
+    }
+
+    // 更新进度条滑块位置
+    function updateMarker() {
+        if (!gameActive || !audioElement) return;
+        const currentTime = audioElement.currentTime;
+        const duration = audioElement.duration;
+        if (duration && duration > 0) {
+            const percent = (currentTime / duration) * 100;
+            beatMarker.style.left = `calc(${percent}% - 20px)`;
+        }
+        animationId = requestAnimationFrame(updateMarker);
+    }
+
+    // 重置游戏状态（不重加载音频，只重置变量和UI）
+    function resetGameState() {
+        if (animationId) cancelAnimationFrame(animationId);
+        if (audioElement) {
+            audioElement.pause();
+            audioElement.currentTime = 0;
+        }
+        gameActive = false;
+        nextBeatIndex = 0;
+        hitCount = 0;
+        hitCountSpan.innerText = '0';
+        progressSpan.innerText = '0';
+        scoreBoard.innerText = '';
+        feedbackDiv.innerHTML = '游戏已重置，点击「播放挑战」开始！';
+        beatMarker.style.left = '0px';
+        playBtn.disabled = false;
+        playBtn.innerHTML = '<i class="fas fa-play"></i> 播放挑战';
+        resetBtn.style.display = 'none';
+        // 重新绘制节拍点（确保音频已加载元数据）
+        if (audioElement && audioElement.duration) {
+            drawBeatDots();
+        }
+    }
+
+    // 游戏结束（失败或胜利）
+    function endGame(isWin = false) {
+        if (animationId) cancelAnimationFrame(animationId);
+        gameActive = false;
+        if (audioElement) {
+            audioElement.pause();
+        }
+        if (isWin) {
+            const accuracy = (hitCount / totalBeats) * 100;
+            scoreBoard.innerHTML = `🏆 通关！准确率：${accuracy.toFixed(1)}% 🏆`;
+            feedbackDiv.innerHTML = '🎉 完美通关！你已掌握川江号子节奏！ 🎉';
+        } else {
+            feedbackDiv.innerHTML = '❌ 游戏结束！点击「重新开始」继续挑战。';
+        }
+        playBtn.disabled = true;
+        resetBtn.style.display = 'inline-block';
+    }
+
+    // 命中判定
+    function onHit() {
+        if (!gameActive) {
+            feedbackDiv.innerHTML = '请先点击「播放挑战」开始游戏！';
+            return;
+        }
+        if (nextBeatIndex >= totalBeats) {
+            feedbackDiv.innerHTML = '✅ 所有节拍已完成！游戏胜利！';
+            endGame(true);
+            return;
+        }
+        const currentTime = audioElement.currentTime;
+        const targetTime = beatTimes[nextBeatIndex];
+        const diff = Math.abs(currentTime - targetTime);
+        if (diff < 0.15) { // 允许误差150ms
+            hitCount++;
+            hitCountSpan.innerText = hitCount;
+            progressSpan.innerText = nextBeatIndex + 1;
+            feedbackDiv.innerHTML = `🎯 命中第${nextBeatIndex+1}拍！误差${(diff*1000).toFixed(0)}ms`;
+            nextBeatIndex++;
+            if (nextBeatIndex === totalBeats) {
+                endGame(true);
+            }
+        } else {
+            feedbackDiv.innerHTML = `❌ 错过节拍！误差${(diff*1000).toFixed(0)}ms，游戏结束。`;
+            endGame(false);
+        }
+    }
+
+    // 初始化音频并开始游戏
+    function initAndPlay() {
+        if (!audioElement) {
+            audioElement = new Audio(audioSrc);
+            audioElement.preload = 'auto';
+            audioElement.onloadedmetadata = () => {
+                drawBeatDots();
+                // 开始播放
+                audioElement.currentTime = 0;
+                audioElement.play().then(() => {
+                    gameActive = true;
+                    nextBeatIndex = 0;
+                    hitCount = 0;
+                    hitCountSpan.innerText = '0';
+                    progressSpan.innerText = '0';
+                    feedbackDiv.innerHTML = '游戏进行中，跟随节奏点击！';
+                    animationId = requestAnimationFrame(updateMarker);
+                    playBtn.disabled = true;
+                    resetBtn.style.display = 'inline-block';
+                }).catch(e => {
+                    feedbackDiv.innerHTML = '音频播放失败，请检查文件路径。';
+                    console.error(e);
+                });
+            };
+            audioElement.onerror = () => {
+                feedbackDiv.innerHTML = '音频加载失败，请确认路径：' + audioSrc;
+            };
+            audioElement.load();
+        } else {
+            // 已存在，重置并播放
+            resetGameState();
+            audioElement.currentTime = 0;
+            audioElement.play().then(() => {
+                gameActive = true;
+                nextBeatIndex = 0;
+                hitCount = 0;
+                hitCountSpan.innerText = '0';
+                progressSpan.innerText = '0';
+                feedbackDiv.innerHTML = '游戏进行中，跟随节奏点击！';
+                animationId = requestAnimationFrame(updateMarker);
+                playBtn.disabled = true;
+                resetBtn.style.display = 'inline-block';
+            }).catch(e => {
+                feedbackDiv.innerHTML = '音频播放失败，请检查文件路径。';
+            });
+        }
+    }
+
+    // 播放按钮点击事件
+    playBtn.addEventListener('click', () => {
+        initAndPlay();
+    });
+
+    // 重新开始按钮
+    resetBtn.addEventListener('click', () => {
+        resetGameState();
+        if (audioElement) {
+            audioElement.currentTime = 0;
+            audioElement.pause();
+        }
+        playBtn.disabled = false;
+        resetBtn.style.display = 'none';
+        // 重新绘制节拍点（确保音频元数据已加载）
+        if (audioElement && audioElement.duration) {
+            drawBeatDots();
+        }
+    });
+
+    // 命中区域点击事件
+    hitZone.addEventListener('click', onHit);
+
+    // 窗口大小改变时重新绘制节拍点
+    window.addEventListener('resize', () => {
+        if (audioElement && audioElement.duration) drawBeatDots();
+    });
+</script>
+</body>
+</html>

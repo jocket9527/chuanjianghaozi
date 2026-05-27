@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>专业研修班 · 非遗传承人培养 · 川江号子研学</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background: #0a0a0a;
+            color: #f0e8dc;
+            background-image: url('./img/背景.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+            position: relative;
+        }
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 8, 5, 0.4);
+            backdrop-filter: blur(1px);
+            z-index: -1;
+        }
+        .container { max-width: 1000px; margin: 0 auto; padding: 0 24px 48px; position: relative; z-index: 2; }
+        .navbar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 0 20px;
+            border-bottom: 1px solid rgba(218, 185, 118, 0.2);
+            margin-bottom: 32px;
+        }
+        .logo h1 { font-size: 1.9rem; background: linear-gradient(135deg,#f5e2b0,#c9a962); background-clip: text; -webkit-background-clip: text; color: transparent; }
+        .nav-links a { color: #fdf3e0; text-decoration: none; margin: 0 12px; border-bottom: 2px solid transparent; padding-bottom: 6px; }
+        .nav-links a:hover { color: #ffd97c; border-bottom-color: #ffd97c; }
+        .detail-card { background: rgba(0,0,0,0.55); backdrop-filter: blur(8px); border-radius: 48px; padding: 32px; margin-top: 20px; border: 1px solid rgba(218, 185, 118, 0.3); }
+        .course-module { margin-bottom: 30px; }
+        .course-module h3 { color: #ffe2a4; margin-bottom: 10px; }
+        .btn-enroll { background: none; border: 1px solid #e7bc7e; padding: 10px 24px; border-radius: 40px; color: #ffefcf; cursor: pointer; margin-top: 20px; }
+        .btn-enroll:hover { background: #b2803f; }
+        .back-link { display: inline-block; margin-top: 32px; color: #ffd97c; text-decoration: none; border-bottom: 1px dashed; }
+        footer { text-align: center; padding: 32px 0 16px; border-top: 1px solid rgba(190,156,96,0.2); margin-top: 40px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="navbar">
+        <div class="logo"><h1>川江号子 · 链上传承</h1></div>
+        <div class="nav-links">
+            <a href="index.html">首页</a><a href="culture.html">资料库</a><a href="inheritor.html">传承人</a>
+            <a href="verify.html">验真查询</a><a href="study.html">研学体验</a>
+            <a href="mall.html">文创商城</a><a href="show.html">驻场演出</a><a href="community.html">新闻社区</a>
+        </div>
+    </div>
+    <div class="detail-card">
+        <h1 style="color:#ffe2a4; margin-bottom:20px;">📜 专业研修班 · 非遗传承人培养</h1>
+        <p>面向高校师生、文化工作者、资深爱好者，深度研习曲谱、唱腔、口传文化与专利应用。</p>
+        <div class="course-module">
+            <h3>📖 研修内容</h3>
+            <ul style="margin-left: 20px; line-height: 1.8;">
+                <li>理论模块：川江号子源流与曲谱体系</li>
+                <li>技艺模块：工尺谱识读、唱腔科学训练</li>
+                <li>实践模块：田野采风、口述史整理</li>
+                <li>创新模块：数字技术（区块链存证、专利应用）与非遗活化</li>
+            </ul>
+        </div>
+        <div class="course-module">
+            <h3>🎓 研修方式</h3>
+            <p>专家讲座 + 工作坊 + 课题研究 + 链上成果认证。结业后颁发“川江号子传承讲师”证书，优秀学员可推荐加入非遗保护专家库。</p>
+        </div>
+        <button class="btn-enroll" onclick="alert('请提交个人简历至邮箱：chuanjiang@ich.cn，我们将审核后通知您。')">咨询详情 / 申请加入</button>
+    </div>
+    <div style="text-align: center; margin-top: 20px;">
+        <a href="study.html" class="back-link"><i class="fas fa-arrow-left"></i> 返回研学体验</a>
+    </div>
+    <footer>© 川江号子 · 链上传承 </footer>
+</div>
+</body>
+</html>

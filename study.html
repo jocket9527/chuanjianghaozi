@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>研学体验 · 川江号子 · 线上学习+成果存证</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background: #0a0a0a;
+            color: #f0e8dc;
+            background-image: url('./img/背景.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+            position: relative;
+        }
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 8, 5, 0.4);
+            backdrop-filter: blur(1px);
+            -webkit-backdrop-filter: blur(1px);
+backdrop-filter: blur(1px);
+            z-index: -1;
+        }
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 24px 48px; position: relative; z-index: 2; }
+        .navbar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 0 20px;
+            border-bottom: 1px solid rgba(218, 185, 118, 0.2);
+            margin-bottom: 32px;
+        }
+        .logo h1 { font-size: 1.9rem; background: linear-gradient(135deg,#f5e2b0,#c9a962); background-clip: text; -webkit-background-clip: text; color: transparent; }
+        .nav-links { display: flex; gap: 20px; flex-wrap: wrap; }
+        .nav-links a { color: #fdf3e0; text-decoration: none; font-weight: 500; border-bottom: 2px solid transparent; padding-bottom: 6px; }
+        .nav-links a:hover, .nav-links a.active { color: #ffd97c; border-bottom-color: #ffd97c; }
+        .chain-badge { background: rgba(0,0,0,0.3); padding: 6px 14px; border-radius: 40px; border: 1px solid rgba(201, 169, 98, 0.3); font-family: monospace; }
+        .page-title { font-size: 2rem; margin: 20px 0 30px; border-left: 6px solid #e0b06e; padding-left: 20px; color: #ffe8bf; }
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px,1fr)); gap: 25px; margin-bottom: 50px; }
+        .card { background: rgba(0,0,0,0.45); backdrop-filter: blur(6px);-webkit-backdrop-filter: blur(6px); border-radius: 28px; padding: 20px; border: 1px solid rgba(218, 185, 118, 0.2); }
+        .card img { width: 100%; height: 150px; object-fit: cover; border-radius: 20px; margin-bottom: 12px; }
+        .btn-study { background: none; border: 1px solid rgba(214, 168, 91, 0.6); padding: 6px 14px; border-radius: 30px; cursor: pointer; margin-top: 12px; display: inline-block; color: #ffefcf; text-decoration: none; }
+        .btn-study:hover { background: rgba(214,168,91,0.2); }
+        .game-item { background: rgba(0,0,0,0.3); border-radius: 20px; padding: 12px; margin-top: 12px; text-align: center; cursor: pointer; border: 1px solid rgba(218,185,118,0.15); }
+        footer { text-align: center; padding: 32px 0 16px; border-top: 1px solid rgba(190, 156, 96, 0.2); margin-top: 40px; font-size: 0.75rem; color: #eee2cd; }
+        @media (max-width: 700px) { .navbar { flex-direction: column; gap: 16px; } }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="navbar">
+        <div class="logo"><h1>川江号子 · 链上传承</h1></div>
+        <div class="nav-links">
+            <a href="index.html">首页</a><a href="culture.html">资料库</a><a href="inheritor.html">传承人</a>
+            <a href="verify.html">验真查询</a><a href="study.html" class="active">研学体验</a>
+            <a href="mall.html">文创商城</a><a href="show.html">驻场演出</a><a href="community.html">新闻社区</a>
+        </div>
+        <div class="chain-badge"><i class="fas fa-graduation-cap"></i> 学习存证 · 永久记录</div>
+    </div>
+    <div class="page-title"><i class="fas fa-chalkboard"></i> 传承教学 · 研学体验</div>
+
+    <!-- 线上课堂（三个卡片，分别链接到研学1/2/3） -->
+    <div class="grid-3">
+        <div class="card">
+            <img src="https://picsum.photos/id/20/400/200" alt="少儿启蒙班">
+            <h3>少儿启蒙班 · 唱响川江</h3>
+            <p>适合6-12岁，趣味节奏游戏+简单号子学唱</p>
+            <a href="研学1.html" class="btn-study">查看详情</a>
+        </div>
+        <div class="card">
+            <img src="https://picsum.photos/id/24/400/200" alt="查看详情">
+            <h3>成人兴趣班 · 号子入门</h3>
+            <p>上水号子、拉纤号子基础唱法</p>
+            <a href="研学2.html" class="btn-study">报名学习</a>
+        </div>
+        <div class="card">
+            <img src="https://picsum.photos/id/26/400/200" alt="查看详情">
+            <h3>专业研修班 · 非遗传承人培养</h3>
+            <p>深度研习曲谱、唱腔、口传文化</p>
+            <a href="研学3.html" class="btn-study">咨询详情</a>
+        </div>
+    </div>                        
+    <!-- 轻量化互动游戏（修改为跳转到独立页面） -->
+    <div class="card">
+        <h3><i class="fas fa-gamepad"></i> 轻量化互动游戏 · 趣味学非遗</h3>
+        <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-top: 15px;">
+            <div class="game-item" onclick="location.href='游戏1.html'">🎵 号子节奏闯关</div>
+            <div class="game-item" onclick="location.href='游戏2.html'">📚 流派知识答题</div>  
+        </div>
+    </div>
+    <footer>© 川江号子·链上传承</footer>
+</div>
+</body>
+</html>

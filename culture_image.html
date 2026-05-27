@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图片详情 · 川江号子</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background: #0a0a0a;
+            color: #f0e8dc;
+            background-image: url('./img/背景.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+            position: relative;
+        }
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 8, 5, 0.4);
+            -webkit-backdrop-filter: blur(1px);
+            backdrop-filter: blur(1px);
+            z-index: -1;
+        }
+        .container { max-width: 1000px; margin: 0 auto; padding: 0 24px 48px; position: relative; z-index: 2; }
+        .navbar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 0 20px;
+            border-bottom: 1px solid rgba(218, 185, 118, 0.2);
+            margin-bottom: 32px;
+        }
+        .logo h1 { font-size: 1.9rem; background: linear-gradient(135deg,#f5e2b0,#c9a962); background-clip: text; -webkit-background-clip: text; color: transparent; }
+        .nav-links a { color: #fdf3e0; text-decoration: none; margin: 0 12px; border-bottom: 2px solid transparent; padding-bottom: 6px; }
+        .nav-links a:hover { color: #ffd97c; border-bottom-color: #ffd97c; }
+        .detail-card { background: rgba(0,0,0,0.55); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); border-radius: 48px; padding: 32px; margin-top: 20px; border: 1px solid rgba(218, 185, 118, 0.3); }
+        .main-image { width: 100%; border-radius: 28px; margin-bottom: 24px; }
+        .back-link { display: inline-block; margin-top: 32px; color: #ffd97c; text-decoration: none; border-bottom: 1px dashed; }
+        footer { text-align: center; padding: 32px 0 16px; font-size: 0.75rem; color: #eee2cd; border-top: 1px solid rgba(190,156,96,0.2); margin-top: 40px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="navbar">
+        <div class="logo"><h1>川江号子 · 链上传承</h1></div>
+        <div class="nav-links">
+            <a href="index.html">首页</a><a href="culture.html">资料库</a><a href="inheritor.html">传承人</a>
+            <a href="verify.html">验真查询</a><a href="study.html">研学体验</a><a href="mall.html">文创商城</a>
+            <a href="show.html">驻场演出</a><a href="community.html">新闻社区</a>
+        </div>
+    </div>
+    <div class="detail-card" id="detailContent">
+        <!-- 动态内容 -->
+        <div style="text-align: center;">加载中...</div>
+    </div>
+    <div style="text-align: center; margin-top: 20px;">
+        <a href="culture.html" class="back-link"><i class="fas fa-arrow-left"></i> 返回资料库</a>
+    </div>
+    <footer>© 川江号子 · 链上传承</footer>
+</div>
+<script>
+    const id = new URLSearchParams(window.location.search).get('id');
+    const imageData = {
+        1: { title: "川江号子起源", img: "https://picsum.photos/id/104/800/500", desc: "川江号子始于汉代，盛于清末，是长江上游船工在劳动中创造的集体歌谣。这张老照片记录了民国时期川江边的船工生活场景。" },
+        2: { title: "江段流派分支", img: "https://picsum.photos/id/118/800/500", desc: "渝州、泸州、宜宾等不同江段的号子风格各异，上图展示了泸州地区的号子队演出实况。" },
+        3: { title: "老船工生活记录", img: "https://picsum.photos/id/119/800/500", desc: "民国时期航运口述史料数字化影像，记录了老船工们的日常生活与劳动细节。" }
+    };
+    const data = imageData[id] || imageData[1];
+    document.getElementById('detailContent').innerHTML = `
+        <h1 style="color:#ffe2a4; margin-bottom:20px;">${data.title}</h1>
+        <img class="main-image" src="${data.img}" alt="${data.title}">
+    `;
+</script>
+</body>
+</html>

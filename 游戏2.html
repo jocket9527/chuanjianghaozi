@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>流派知识答题 · 川江号子</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background: #0a0a0a;
+            color: #f0e8dc;
+            background-image: url('./img/背景.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+            position: relative;
+        }
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 8, 5, 0.4);
+            backdrop-filter: blur(1px);
+            z-index: -1;
+        }
+        .container { max-width: 800px; margin: 0 auto; padding: 0 24px 48px; position: relative; z-index: 2; }
+        .game-box {
+            background: rgba(0,0,0,0.55);
+            backdrop-filter: blur(10px);
+            border-radius: 48px;
+            padding: 32px;
+            margin-top: 40px;
+            border: 1px solid rgba(218,185,118,0.3);
+        }
+        h1 { color: #ffe2a4; margin-bottom: 20px; text-align: center; }
+        .question {
+            background: rgba(0,0,0,0.4);
+            border-radius: 32px;
+            padding: 20px;
+            margin: 20px 0;
+            font-size: 1.2rem;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 20px 0;
+        }
+        .option {
+            background: rgba(30,26,22,0.8);
+            padding: 12px 20px;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: 0.2s;
+            border: 1px solid rgba(218,185,118,0.3);
+        }
+        .option:hover { background: rgba(231,188,126,0.3); transform: translateX(8px); }
+        .feedback {
+            font-size: 1rem;
+            min-height: 50px;
+            margin: 10px 0;
+            text-align: center;
+        }
+        .next-btn {
+            background: none;
+            border: 1px solid #e7bc7e;
+            padding: 8px 24px;
+            border-radius: 40px;
+            color: #ffefcf;
+            cursor: pointer;
+            display: block;
+            margin: 20px auto 0;
+        }
+        .result {
+            text-align: center;
+            font-size: 1.3rem;
+            margin-top: 20px;
+        }
+        .back-link { display: inline-block; margin-top: 30px; color: #ffd97c; text-decoration: none; border-bottom: 1px dashed; text-align: center; width: 100%; }
+        footer { text-align: center; margin-top: 50px; font-size: 0.75rem; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="game-box">
+        <h1><i class="fas fa-question-circle"></i> 流派知识答题</h1>
+        <div id="quizArea"></div>
+        <div id="resultArea" class="result"></div>
+        <button id="restartQuiz" class="next-btn" style="display: none;">重新挑战（随机抽题）</button>
+    </div>
+    <div style="text-align: center; margin-top: 20px;">
+        <a href="study.html" class="back-link"><i class="fas fa-arrow-left"></i> 返回研学体验</a>
+    </div>
+    <footer>© 川江号子 · 链上传承 </footer>
+</div>
+
+<script>
+    // ---------- 完整题库（15道） ----------
+    const fullQuestionBank = [
+        { text: "川江号子主要流行于哪条河流流域？", options: ["黄河", "长江上游（川江段）", "珠江", "松花江"], answer: 1 },
+        { text: "下列哪一项不是川江号子的主要类型？", options: ["上水号子", "下水号子", "拉纤号子", "采茶号子"], answer: 3 },
+        { text: "川江号子已被列入哪个级别的非物质文化遗产名录？", options: ["市级", "省级", "国家级", "世界级"], answer: 2 },
+        { text: "以下哪位是川江号子的国家级代表性传承人？", options: ["陈邦贵", "刘德华", "赵本山", "李玉刚"], answer: 0 },
+        { text: "川江号子的演唱形式主要是？", options: ["独唱", "领唱与和唱", "齐唱", "对唱"], answer: 1 },
+        { text: "川江号子又称为什么？", options: ["峡江号子", "黄河号子", "渔歌", "山歌"], answer: 0 },
+        { text: "以下哪个场景最常出现川江号子？", options: ["婚礼庆典", "船工拉纤", "农田耕作", "节日庙会"], answer: 1 },
+        { text: "川江号子中的“上水号子”节奏特点是？", options: ["缓慢沉重", "急促激昂", "轻快活泼", "悠扬婉转"], answer: 0 },
+        { text: "川江号子已被列入哪一年公布的第一批国家级非遗名录？", options: ["2004年", "2005年", "2006年", "2008年"], answer: 2 },
+        { text: "以下哪个不是川江号子的艺术特征？", options: ["一领众和", "即兴编词", "使用工尺谱", "交响乐伴奏"], answer: 3 },
+        { text: "川江号子中“拉纤号子”主要用于什么情况？", options: ["顺流行船", "逆水拉纤", "码头装卸", "夜泊休息"], answer: 1 },
+        { text: "以下哪个地区不是川江号子的主要分布地？", options: ["重庆", "四川宜宾", "湖北宜昌", "江苏南京"], answer: 3 },
+        { text: "川江号子的歌词内容通常不包括？", options: ["劳动艰辛", "江中险滩", "爱情故事", "皇室颂歌"], answer: 3 },
+        { text: "下列哪一项是川江号子的重要功能？", options: ["娱乐表演", "统一节奏、鼓舞士气", "祭祀祈福", "传递情报"], answer: 1 },
+        { text: "川江号子中“领唱”通常由谁担任？", options: ["经验丰富的老船工", "年轻力壮的新手", "船东", "岸上观众"], answer: 0 }
+    ];
+
+    // 游戏配置
+    const QUESTIONS_PER_GAME = 5;  // 每次随机抽取5道题
+    let currentQuestions = [];      // 当前抽取的题目（数组，每个元素包含原题和乱序后的选项）
+    let currentQIndex = 0;
+    let score = 0;
+    let quizFinished = false;
+
+    // 辅助函数：随机打乱数组 (Fisher-Yates)
+    function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    // 从题库中随机抽取指定数量的题目，并为每道题随机打乱选项顺序
+    function selectRandomQuestions() {
+        // 随机抽取不重复的题目
+        const shuffledBank = shuffleArray([...fullQuestionBank]);
+        const selected = shuffledBank.slice(0, QUESTIONS_PER_GAME);
+        // 为每道题随机打乱选项顺序，同时记录正确答案的新索引
+        return selected.map(q => {
+            const shuffledOptions = shuffleArray([...q.options]);
+            const newAnswerIndex = shuffledOptions.indexOf(q.options[q.answer]);
+            return {
+                text: q.text,
+                options: shuffledOptions,
+                answer: newAnswerIndex
+            };
+        });
+    }
+
+    // 重新开始游戏（重新随机抽题）
+    function restartGame() {
+        currentQuestions = selectRandomQuestions();
+        currentQIndex = 0;
+        score = 0;
+        quizFinished = false;
+        document.getElementById('restartQuiz').style.display = 'none';
+        renderQuestion();
+    }
+
+    // 渲染当前题目
+    function renderQuestion() {
+        if (currentQIndex >= currentQuestions.length) {
+            finishQuiz();
+            return;
+        }
+        const q = currentQuestions[currentQIndex];
+        let html = `<div class="question">${currentQIndex+1}. ${q.text}</div>`;
+        html += `<div class="options" id="optionsContainer">`;
+        q.options.forEach((opt, idx) => {
+            html += `<div class="option" data-opt="${idx}">${String.fromCharCode(65+idx)}. ${opt}</div>`;
+        });
+        html += `</div><div class="feedback" id="feedbackMsg"></div>`;
+        document.getElementById('quizArea').innerHTML = html;
+
+        // 绑定选项点击事件
+        document.querySelectorAll('.option').forEach(opt => {
+            opt.addEventListener('click', (e) => {
+                if (quizFinished) return;
+                const selected = parseInt(opt.dataset.opt);
+                const correct = (selected === q.answer);
+                const feedbackDiv = document.getElementById('feedbackMsg');
+                if (correct) {
+                    score++;
+                    feedbackDiv.innerHTML = '✅ 回答正确！';
+                } else {
+                    const correctLetter = String.fromCharCode(65+q.answer);
+                    const correctText = q.options[q.answer];
+                    feedbackDiv.innerHTML = `❌ 错误！正确答案是 ${correctLetter}. ${correctText}`;
+                }
+                // 禁用所有选项
+                document.querySelectorAll('.option').forEach(opt => opt.style.pointerEvents = 'none');
+                // 显示下一题按钮（如果已有则复用）
+                let nextBtn = document.querySelector('.next-btn');
+                if (!nextBtn || nextBtn.id === 'restartQuiz') {
+                    nextBtn = document.createElement('button');
+                    nextBtn.className = 'next-btn';
+                    nextBtn.innerText = '下一题';
+                    document.getElementById('quizArea').appendChild(nextBtn);
+                }
+                nextBtn.style.display = 'block';
+                nextBtn.onclick = () => {
+                    currentQIndex++;
+                    renderQuestion();
+                };
+            });
+        });
+        // 移除可能残留的旧下一题按钮
+        const oldBtn = document.querySelector('.next-btn');
+        if (oldBtn && oldBtn.id !== 'restartQuiz') oldBtn.remove();
+    }
+
+    // 完成所有题目，显示得分
+    function finishQuiz() {
+        quizFinished = true;
+        const percent = (score / currentQuestions.length) * 100;
+        let message = `🎉 答题完成！ 得分：${score}/${currentQuestions.length} (${percent.toFixed(0)}分) 🎉`;
+        if (percent >= 80) message += "<br>🏆 你真棒！不愧是川江号子文化达人！";
+        else if (percent >= 60) message += "<br>👍 不错哦，再学习一下会更好！";
+        else message += "<br>📚 再多看看资料库，你会更了解川江号子！";
+        document.getElementById('quizArea').innerHTML = `<div class="result">${message}</div>`;
+        document.getElementById('restartQuiz').style.display = 'block';
+    }
+
+    // 绑定重新挑战按钮
+    document.getElementById('restartQuiz').addEventListener('click', () => {
+        restartGame();
+    });
+
+    // 初始化游戏
+    restartGame();
+</script>
+</body>
+</html>

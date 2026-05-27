@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>曲谱列表 · 川江号子</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background: #0a0a0a;
+            color: #f0e8dc;
+            background-image: url('./img/背景.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+            position: relative;
+        }
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 8, 5, 0.4);
+            backdrop-filter: blur(1px);
+            -webkit-backdrop-filter: blur(1px);
+backdrop-filter: blur(1px);
+            z-index: -1;
+        }
+        .container { max-width: 1000px; margin: 0 auto; padding: 0 24px 48px; position: relative; z-index: 2; }
+        .navbar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 0 20px;
+            border-bottom: 1px solid rgba(218, 185, 118, 0.2);
+            margin-bottom: 32px;
+        }
+        .logo h1 { font-size: 1.9rem; background: linear-gradient(135deg,#f5e2b0,#c9a962); background-clip: text; -webkit-background-clip: text; color: transparent; }
+        .nav-links a { color: #fdf3e0; text-decoration: none; margin: 0 12px; border-bottom: 2px solid transparent; padding-bottom: 6px; }
+        .nav-links a:hover { color: #ffd97c; border-bottom-color: #ffd97c; }
+        .page-title { font-size: 2rem; margin: 20px 0 30px; border-left: 6px solid #e0b06e; padding-left: 20px; color: #ffe8bf; }
+        .chapter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 30px;
+            margin-top: 20px;
+        }
+        .chapter-card {
+            background: rgba(0,0,0,0.45);
+            -webkit-backdrop-filter: blur(6px);
+            backdrop-filter: blur(6px);
+            border-radius: 28px;
+            padding: 24px;
+            text-align: center;
+            border: 1px solid rgba(218, 185, 118, 0.2);
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .chapter-card:hover {
+            border-color: #e7bc7e;
+            transform: translateY(-5px);
+            background: rgba(0,0,0,0.6);
+        }
+        .chapter-card h2 {
+            font-size: 2rem;
+            color: #ffe2a4;
+            margin-bottom: 12px;
+        }
+        .chapter-card p {
+            opacity: 0.8;
+        }
+        .back-link { display: inline-block; margin-top: 32px; color: #ffd97c; text-decoration: none; border-bottom: 1px dashed; }
+        footer { text-align: center; padding: 32px 0 16px; border-top: 1px solid rgba(190, 156, 96, 0.2); margin-top: 40px; }
+        @media (max-width: 700px) { .navbar { flex-direction: column; gap: 16px; } }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="navbar">
+        <div class="logo"><h1>川江号子 · 链上传承</h1></div>
+        <div class="nav-links">
+            <a href="index.html">首页</a><a href="culture.html">资料库</a><a href="inheritor.html">传承人</a>
+            <a href="verify.html">验真查询</a><a href="study.html">研学体验</a><a href="mall.html">文创商城</a>
+            <a href="show.html">驻场演出</a><a href="community.html">新闻社区</a>
+        </div>
+    </div>
+    <div class="page-title"><i class="fas fa-music"></i> 川江号子 · 交响合唱曲谱</div>
+    <div class="chapter-grid">
+        <div class="chapter-card" onclick="location.href='culture_score_detail.html?chapter=1'">
+            <h2>第一乐章</h2>
+            <p>混声合唱《川江谣——月亮光光》</p>
+            <p>男高音与男声合唱《闯滟滪滩》</p>
+            <p>男声表演唱《歇稍调》</p>
+        </div>
+        <div class="chapter-card" onclick="location.href='culture_score_detail.html?chapter=2'">
+            <h2>第二乐章</h2>
+            <p>女声表演唱《哥哥撑船几漂亮》</p>
+            <p>男声合唱《川江酒歌》</p>
+            <p>男女声对唱《搭飞白》</p>
+            <p>男声领唱与男声合唱《川江号子——龙门阵》</p>
+        </div>
+        <div class="chapter-card" onclick="location.href='culture_score_detail.html?chapter=3'">
+            <h2>第三乐章</h2>
+            <p>无伴奏女中音与女声合唱《么儿乖——川江摇篮曲》</p>
+            <p>高男高音表演唱《长声吆吆》</p>
+            <p>女民歌与男声表演唱《船二哥烫火锅》</p>
+        </div>
+        <div class="chapter-card" onclick="location.href='culture_score_detail.html?chapter=4'">
+            <h2>第四乐章</h2>
+            <p>男中音与混声合唱《想婆娘》</p>
+            <p>无伴奏男声表演唱《船到码头把酒喝》</p>
+            <p>混声合唱《川江颂》</p>
+        </div>
+    </div>
+    <div style="text-align: center; margin-top: 30px;">
+        <a href="culture.html" class="back-link"><i class="fas fa-arrow-left"></i> 返回资料库</a>
+    </div>
+    <footer>© 川江号子 · 链上传承</footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>视频详情 · 川江号子</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background: #0a0a0a;
+            color: #f0e8dc;
+            background-image: url('./img/背景.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+            position: relative;
+        }
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 8, 5, 0.4);
+            backdrop-filter: blur(1px);
+            -webkit-backdrop-filter: blur(1px);
+backdrop-filter: blur(1px);
+            z-index: -1;
+        }
+        .container { max-width: 1000px; margin: 0 auto; padding: 0 24px 48px; position: relative; z-index: 2; }
+        .navbar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 0 20px;
+            border-bottom: 1px solid rgba(218, 185, 118, 0.2);
+            margin-bottom: 32px;
+        }
+        .logo h1 { font-size: 1.9rem; background: linear-gradient(135deg,#f5e2b0,#c9a962); background-clip: text; -webkit-background-clip: text; color: transparent; }
+        .nav-links a { color: #fdf3e0; text-decoration: none; margin: 0 12px; border-bottom: 2px solid transparent; padding-bottom: 6px; }
+        .nav-links a:hover { color: #ffd97c; border-bottom-color: #ffd97c; }
+        .detail-card { background: rgba(0,0,0,0.55); backdrop-filter: blur(8px);-webkit-backdrop-filter: blur(6px); border-radius: 48px; padding: 32px; margin-top: 20px; border: 1px solid rgba(218, 185, 118, 0.3); }
+        .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; margin: 20px 0; }
+        .video-wrapper video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 24px; outline: none; }
+        .back-link { display: inline-block; margin-top: 32px; color: #ffd97c; text-decoration: none; border-bottom: 1px dashed; }
+        .btn-chain { background: none; border: 1px solid #e7bc7e; padding: 8px 20px; border-radius: 40px; color: #ffefcf; cursor: pointer; margin-top: 20px; }
+        .btn-chain:hover { background: #b2803f; }
+        footer { text-align: center; padding: 32px 0 16px; border-top: 1px solid rgba(190,156,96,0.2); margin-top: 40px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="navbar">
+        <div class="logo"><h1>川江号子 · 链上传承</h1></div>
+        <div class="nav-links">
+            <a href="index.html">首页</a><a href="culture.html">资料库</a><a href="inheritor.html">传承人</a>
+            <a href="verify.html">验真查询</a><a href="study.html">研学体验</a><a href="mall.html">文创商城</a>
+            <a href="show.html">驻场演出</a><a href="community.html">新闻社区</a>
+        </div>
+    </div>
+    <div class="detail-card" id="detailContent">
+        <div style="text-align: center;">加载中...</div>
+    </div>
+    <div style="text-align: center; margin-top: 20px;">
+        <a href="culture.html" class="back-link"><i class="fas fa-arrow-left"></i> 返回资料库</a>
+    </div>
+    <footer>© 川江号子 · 链上传承</footer>
+</div>
+
+<script>
+    const id = new URLSearchParams(window.location.search).get('id');
+  
+    const videoData = {
+        1: {
+            title: "船到桥头把酒喝",
+            desc: "船工到港举杯欢，号子嘹亮庆团圆",
+            src: "./img/演出视频/《船到桥头把酒喝》 (1).mp4", 
+           
+        },
+        2: {
+            title: "烫火锅",
+            desc: "江边火锅热气腾，号子伴酒更传神",
+            src: "./img/演出视频/烫火锅（商务委）.mp4", 
+           
+        },
+        3: {
+            title: "川江号子",
+            desc: "千年川江一声吼，号子传情震峡谷",
+            src: "./img/演出视频/川江号子演出视频.mp4",
+         
+        }
+    };
+    const data = videoData[id] || videoData[1];
+    document.getElementById('detailContent').innerHTML = `
+        <h1 style="color:#ffe2a4; margin-bottom:20px;">${data.title}</h1>
+        <div class="video-wrapper">
+            <video controls autoplay muted playsinline poster="https://picsum.photos/id/120/800/450">
+                <source src="${data.src}" type="video/mp4">
+                您的浏览器不支持视频播放。
+            </video>
+        </div>
+        <p style="line-height:1.8; margin: 16px 0;">${data.desc}</p>
+    `;
+</script>
+</body>
+</html>

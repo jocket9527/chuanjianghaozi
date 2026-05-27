@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>川江号子 · 链上传承 | 首页</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Noto Serif SC', 'Inter', serif; background: #0a0a0a; color: #f0e8dc; background-image: url('./img/背景.jpg'); background-size: cover; background-attachment: fixed; background-position: center 30%; position: relative; }
+        body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10, 8, 5, 0.4); backdrop-filter: blur(1px); -webkit-backdrop-filter: blur(1px);
+backdrop-filter: blur(1px);z-index: -1; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 0 24px 48px; position: relative; z-index: 2; }
+        .navbar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; padding: 24px 0 20px; border-bottom: 1px solid rgba(218, 185, 118, 0.2); margin-bottom: 32px; }
+        .logo h1 { font-size: 1.9rem; font-weight: 700; letter-spacing: 4px; background: linear-gradient(135deg, #f5e2b0, #c9a962); background-clip: text; -webkit-background-clip: text; color: transparent; }
+        .logo p { font-size: 0.7rem; letter-spacing: 2px; color: #e6d5b3; margin-top: 4px; }
+        .nav-links { display: flex; flex-wrap: wrap; gap: 20px; }
+        .nav-links a { color: #fdf3e0; text-decoration: none; font-weight: 500; font-size: 1rem; transition: 0.3s; border-bottom: 2px solid transparent; padding-bottom: 6px; }
+        .nav-links a:hover, .nav-links a.active { color: #ffd97c; border-bottom-color: #ffd97c; }
+        .chain-badge { background: rgba(0,0,0,0.3); padding: 6px 14px; border-radius: 40px; font-size: 0.8rem; border: 1px solid rgba(201, 169, 98, 0.3); font-family: monospace; }
+        .hero-video { width: 100%; height: 70vh; min-height: 450px; overflow: hidden; border-radius: 32px; margin-bottom: 40px; border: 1px solid rgba(218, 185, 118, 0.15); }
+        .hero-video video { width: 100%; height: 100%; object-fit: cover; }
+        .quick-nav { margin-bottom: 50px; }
+        .quick-nav h3 { font-size: 1.5rem; text-align: center; margin-bottom: 25px; color: #ffe2a4; }
+        .nav-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px; }
+        .nav-item { background: rgba(0,0,0,0.4); backdrop-filter: blur(4px);-webkit-backdrop-filter: blur(6px); border-radius: 28px; padding: 16px 12px; text-align: center; border: 1px solid rgba(218, 185, 118, 0.2); transition: 0.2s; cursor: pointer; text-decoration: none; color: #f0e8dc; }
+        .nav-item i { font-size: 2rem; color: #e6bc7c; margin-bottom: 10px; display: block; }
+        .nav-item span { font-size: 0.9rem; font-weight: 500; }
+        .nav-item:hover { transform: translateY(-5px); border-color: rgba(231, 188, 126, 0.5); background: rgba(0,0,0,0.6); }
+        .intro-block { background: rgba(0,0,0,0.4); border-radius: 32px; padding: 30px 25px; margin-bottom: 50px; border: 1px solid rgba(218, 185, 118, 0.2); }
+        .intro-block h3 { font-size: 1.8rem; margin-bottom: 20px; color: #ffe2a4; text-align: center; }
+        .intro-block p { font-size: 1.05rem; line-height: 1.7; text-align: center; max-width: 900px; margin: 0 auto; }
+        .carousel-section { margin-bottom: 60px; }
+        .carousel-title { font-size: 1.8rem; text-align: center; margin-bottom: 30px; color: #ffe8bf; border-left: 6px solid #e0b06e; padding-left: 20px; display: inline-block; }
+        .carousel-container { position: relative; width: 100%; overflow: hidden; border-radius: 32px; border: 1px solid rgba(218, 185, 118, 0.2); background: rgba(0,0,0,0.3); }
+        .carousel-track { display: flex; transition: transform 0.5s ease; }
+        .carousel-slide { min-width: 100%; position: relative; }
+        .carousel-slide img { width: 100%; height: 350px; object-fit: cover; display: block; }
+        .carousel-caption { position: absolute; bottom: 20px; left: 0; right: 0; background: rgba(0,0,0,0.6); padding: 12px; text-align: center; font-size: 1rem; }
+        .carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: #e7bc7e; border: none; font-size: 2rem; padding: 0 12px; cursor: pointer; border-radius: 40px; }
+        .carousel-btn.prev { left: 15px; }
+        .carousel-btn.next { right: 15px; }
+        .carousel-dots { display: flex; justify-content: center; gap: 12px; margin-top: 16px; }
+        .dot { width: 10px; height: 10px; background: rgba(255,255,255,0.4); border-radius: 50%; cursor: pointer; }
+        .dot.active { background: #e7bc7e; transform: scale(1.2); }
+        
+        /* 数字资产专区样式 - 改为带图片的卡片布局，与数字产品专区一致 */
+        .digital-products { margin-bottom: 60px; }
+        .products-grid { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 30px; 
+            margin-top: 20px; 
+        }
+        .product-card { 
+            background: rgba(0,0,0,0.45); 
+            backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+            border-radius: 28px; 
+            padding: 20px; 
+            border: 1px solid rgba(218, 185, 118, 0.2); 
+            transition: 0.2s; 
+            text-align: center;
+        }
+        .product-card:hover { 
+            border-color: rgba(231, 188, 126, 0.5); 
+            transform: translateY(-3px); 
+        }
+        .product-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 20px;
+            margin-bottom: 15px;
+        }
+        .product-card h4 { 
+            font-size: 1.2rem; 
+            margin-bottom: 8px; 
+        }
+        .product-card p {
+            font-size: 0.85rem;
+            opacity: 0.8;
+            margin-bottom: 12px;
+        }
+        .btn-mint { 
+            background: none; 
+            border: 1px solid rgba(214, 168, 91, 0.6); 
+            padding: 6px 14px; 
+            border-radius: 30px; 
+            font-size: 0.8rem; 
+            color: #ffefcf; 
+            cursor: pointer; 
+            margin-top: 5px;
+        }
+        .btn-mint:hover { background: #b2803f; color: #fff; }
+        
+        footer { text-align: center; padding: 32px 0 16px; font-size: 0.75rem; color: #eee2cd; border-top: 1px solid rgba(190, 156, 96, 0.2); margin-top: 40px; }
+        @media (max-width: 860px) { 
+            .hero-video { height: 50vh; } 
+            .nav-links { justify-content: center; }
+            .products-grid { grid-template-columns: 1fr; }
+        }
+        
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="navbar">
+        <div class="logo"><h1>川江号子 · 链上传承</h1><p>CHUANJIANG HAOZI · ON-CHAIN HERITAGE</p></div>
+        <div class="nav-links">
+            <a href="index.html" class="active">首页</a>
+            <a href="culture.html">资料库</a>
+            <a href="inheritor.html">传承人</a>
+            <a href="verify.html">验真查询</a>
+            <a href="study.html">研学体验</a>
+            <a href="mall.html">文创商城</a>
+            <a href="show.html">驻场演出</a>
+            <a href="community.html">新闻社区</a>
+        </div>
+        <div class="chain-badge"><i class="fas fa-graduation-cap"></i> 区块链 · 可信存证</div>
+    </div>
+
+    <div class="hero-video">
+        <video autoplay muted loop playsinline>
+            <source src="./img/视频1.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <div class="quick-nav">
+        <h3><i class="fas fa-compass"></i> 核心功能导航</h3>
+        <div class="nav-grid">
+            <a href="culture.html" class="nav-item"><i class="fas fa-database"></i><span>资料库</span></a>
+            <a href="inheritor.html" class="nav-item"><i class="fas fa-users"></i><span>传承人</span></a>
+            <a href="verify.html" class="nav-item"><i class="fas fa-search"></i><span>验真查询</span></a>
+            <a href="study.html" class="nav-item"><i class="fas fa-graduation-cap"></i><span>研学体验</span></a>
+            <a href="mall.html" class="nav-item"><i class="fas fa-store"></i><span>文创商城</span></a>
+            <a href="show.html" class="nav-item"><i class="fas fa-ticket-alt"></i><span>驻场演出</span></a>
+        </div>
+    </div>
+
+    <div class="intro-block">
+        <h3><i class="fas fa-water"></i> 千年江韵 · 数字焕活</h3>
+        <p>川江号子，作为国家级非物质文化遗产，承载着长江上游船工千年的劳动记忆。本项目利用区块链技术，将珍贵的原创音频、演出视频、排练影像、获奖图片等内容永久存证，实现防篡改、可溯源、版权明确。目前已完成286件数字资产的上链保护，联合12位传承人，记录138首经典曲目，平台累计访问量超过12万次。我们致力于让古老号子在数字时代获得新生，让每一段声音都有迹可循。</p>
+    </div>
+
+    <div class="carousel-section">
+        <div style="text-align: center;">
+            <div class="carousel-title">📢 最新动态 · 精彩推荐</div>
+        </div>
+        <div class="carousel-container">
+            <div class="carousel-track" id="carouselTrack">
+                <div class="carousel-slide"><img src="./img/获奖图片/校园之春获奖.jpg" alt="获奖图片"><div class="carousel-caption">校园之春获奖</div></div>
+                <div class="carousel-slide"><img src="./img/排练.png" alt="排练视频"><div class="carousel-caption">新创剧目排练花絮独家放送</div></div>
+                <div class="carousel-slide"><img src="./img/演出照片/3.jpg" alt="原创音频"><div class="carousel-caption">原创作品《船到桥头把酒喝》数字藏品上线</div></div>
+                <div class="carousel-slide"><img src="./img/音乐会.png" alt="音乐会"><div class="carousel-caption">音乐会视频完整版即将发布</div></div>
+            </div>
+            <button class="carousel-btn prev" id="prevBtn">❮</button>
+            <button class="carousel-btn next" id="nextBtn">❯</button>
+        </div>
+        <div class="carousel-dots" id="carouselDots"></div>
+    </div>
+
+    <!-- 数字资产专区：改为带图片的卡片样式，保留模拟上链功能 -->
+    <div class="digital-products">
+        <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap;">
+            <div class="carousel-title">📦 数字资产 · 链上臻品</div>
+            <a href="mall.html" style="color:#e7bc7e; text-decoration: none;">查看更多 →</a>
+        </div>
+        <div class="products-grid">
+            <div class="product-card">
+                <img src="./img/logo.png" alt="原创作品" onerror="this.src='https://picsum.photos/id/104/300/200'">
+                <h4>原创logo</h4>
+                
+                <button class="btn-mint" onclick="alert('待研发')">查询</button>
+            </div>
+            <div class="product-card">
+                <img src="./img/图.jpg" alt="原创作品" onerror="this.src='https://picsum.photos/id/120/300/200'">
+                <h4>钥匙扣</h4>
+                
+                <button class="btn-mint" onclick="alert('已加入购物清单')">购买</button>
+            </div>
+            <div class="product-card">
+                <img src="./img/帆布袋.jpg" alt="原创作品" onerror="this.src='https://picsum.photos/id/26/300/200'">
+                <h4>帆布袋</h4>
+  
+                <button class="btn-mint" onclick="alert('已加入购物清单')">购买</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>© 川江号子·链上传承 | 数字技术守护千年非遗</footer>
+</div>
+
+<script>
+    const track = document.getElementById('carouselTrack');
+    const slides = document.querySelectorAll('.carousel-slide');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const dotsContainer = document.getElementById('carouselDots');
+    let currentIndex = 0;
+    const totalSlides = slides.length;
+    function updateCarousel() { track.style.transform = `translateX(-${currentIndex * 100}%)`; document.querySelectorAll('.dot').forEach((dot, idx) => { dot.classList.toggle('active', idx === currentIndex); }); }
+    function createDots() { for (let i = 0; i < totalSlides; i++) { const dot = document.createElement('div'); dot.classList.add('dot'); if (i === 0) dot.classList.add('active'); dot.addEventListener('click', () => { currentIndex = i; updateCarousel(); }); dotsContainer.appendChild(dot); } }
+    function nextSlide() { currentIndex = (currentIndex + 1) % totalSlides; updateCarousel(); }
+    function prevSlide() { currentIndex = (currentIndex - 1 + totalSlides) % totalSlides; updateCarousel(); }
+    nextBtn.addEventListener('click', nextSlide);
+    prevBtn.addEventListener('click', prevSlide);
+    createDots();
+    setInterval(nextSlide, 5000);
+</script>
+</body>
+</html>
